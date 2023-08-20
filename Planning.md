@@ -15,7 +15,7 @@ of objects and, at the end of the game, guess a rebus puzzle.
 
 ![wireshark]( ./img/wireshark.png "Wireshark")
 
-1. Board - The board is made up of a 5x6 grid. When the game is first started the user sees the number ranging from 1 to 30on eqch sqare.
+1. Board - The board is made up of a 5x6 grid. When the game is first started the user sees the number ranging from 1 to 30 on eqch sqare.
 
 2. Text Box - Used to give the player instructions on how to play the game.
 
@@ -56,7 +56,7 @@ of objects and, at the end of the game, guess a rebus puzzle.
 
 ```
    EMOJI = { // partial list
-     "img" : "img/emoji/null.png",                  // 0
+     "img" : "",                 ,                  // 0
      "img" : "img/emoji/ambulance.png",             // 1
      "img" : "img/emoji/art.png",                   // 2
      "img" : "img/emoji/bell.png",                  // 3
@@ -69,11 +69,11 @@ of objects and, at the end of the game, guess a rebus puzzle.
    }
 
    REBUS_PUZZLE = { // partial list
-      "img" : "img/null.png",      "solution" : "",  "phoneticSolution" : ""   // 0
-      "img" : "img/puzzle1.png",   "solution" : "",  "phoneticSolution" : ""   // 0
-      "img" : "img/puzzle2.png",   "solution" : "",  "phoneticSolution" : ""   // 1
-      "img" : "img/puzzle3.png",   "solution" : "",  "phoneticSolution" : ""   // 2
-      "img" : "img/puzzle4.png",   "solution" : "",  "phoneticSolution" : ""   // 3
+      "img" : "",                  "solution" : "",  "phoneticSolution" : ""   // 0
+      "img" : "img/puzzle1.png",   "solution" : "",  "phoneticSolution" : ""   // 1
+      "img" : "img/puzzle2.png",   "solution" : "",  "phoneticSolution" : ""   // 2
+      "img" : "img/puzzle3.png",   "solution" : "",  "phoneticSolution" : ""   // 3
+      "img" : "img/puzzle4.png",   "solution" : "",  "phoneticSolution" : ""   // 4
    };
 
    MAX_GUESSES 30
@@ -91,23 +91,23 @@ of objects and, at the end of the game, guess a rebus puzzle.
 
 
 ### Cached DOM Elements
-- title (Concentration)
-- board (5x6 grid)
-- statusBox (display directions (in index.html) and gives feedback)
-- rebusAnswerBox (input guess)
-- rebusSubmitBox (submit guess)
-- playButton (play/restart game)
-- numGuessesBox (displays how many guesses used)
+- *titleEl* (Concentration)
+- *boardEl* (5x6 grid)
+- *statusBoxEl* (display directions (in index.html) and gives feedback)
+- *rebusAnswerBoxEl* (input guess)
+- *rebusSubmitBoxEl* (submit guess)
+- *playButtonEl* (play/restart game)
+- *numGuessesBoxEl* (displays how many guesses used)
 
 ### Pseudocode
 
 #### Init
 
 1. Initialize Variables
-   numGuessses = -1
+   *numGuessses* = -1
 
-2. When numGuesses is -1:
-   - rebusNum = (randomly select one of the puzzles)
+2. When *numGuesses* is -1:
+   - *rebusNum* = (randomly select one of the puzzles)
    ```
    SquaresSelected[2] = { 0, 0};
    board = { // board should display number
@@ -118,7 +118,7 @@ of objects and, at the end of the game, guess a rebus puzzle.
      { 0, 0, 0, 0, 0},
      { 0, 0, 0, 0, 0}
    }
-   emojiBoard = { // no emoji assigned yet
+    emojiBoard = { // no emoji assigned yet
      { 0, 0, 0, 0, 0},
      { 0, 0, 0, 0, 0},
      { 0, 0, 0, 0, 0},
@@ -126,47 +126,47 @@ of objects and, at the end of the game, guess a rebus puzzle.
      { 0, 0, 0, 0, 0},
      { 0, 0, 0, 0, 0} 
      ```
-   - board eventlister ignores click event 
-   - statusBox "To start: press 'Start Game' button" is appended to the .innerText.
-   - rebusAnswerBox - hidden
-   - rebusSubmitBox - hidden
-   - playButton - shows "Start Game"
-   - numGuessesBox - hidden
+   - *boardEl* eventlister ignores click event 
+   - *statusBox*El "To start: press 'Start Game' button" is appended to the .innerText.
+   - *rebusAnswerBoxEl* - hidden
+   - *rebusSubmitBoxEl* - hidden
+   - *playButtonEl* - shows "Start Game"
+   - *numGuessesBoxEl* - hidden
 
 #### Start Game
 1. When Player Clicks "Start Game"
-   - emojiBoard gets randomly populated with 15 pairs of emoji indices
-   - numGuesses = 0
-   - squareSelected[0].id = 0
-   - squareSelected[1].id = 0
-   - board eventlister listens for click event 
-   - rebusAnswerBox - hidden
-   - rebusSubmitBox - hidden
-   - playButton - hidden
-   - numGuessesBox - shows "Number of Guesses " + *numGuesses* + " of " +  *MAX_GUESSES*;
+   - *emojiBoard* gets randomly populated with 15 pairs of emoji indices
+   - *numGuesses* = 0
+   - *squareSelected[0].id* = 0
+   - *squareSelected[1].id* = 0
+   - *boardEl* eventlister listens for click event 
+   - *rebusAnswerBoxEl* - hidden
+   - *rebusSubmitBoxEl* - hidden
+   - *playButtonEl* - hidden
+   - *numGuessesBox* - shows "Number of Guesses " + *numGuesses* + " of " +  *MAX_GUESSES*;
 
 2. When Player Clicks a Sqaure
-   - If SquaresSelected[0] === 0 , statusBox shows "Select first square"
-   - If SquaresSelected[0] !== 0 , statusBox shows "Select second square"
-   - If SquaresSelected[1] !== 0 , figuer out if SquareSelected[0] === SquareSelected[1].
-        - If they match - statusBox shows "Correct!" in Green
-        - If they do not match - statusBox shows "Wrong!" in Red
-        - Increment numGuesses
-             - Is numGuesses === MAX_GUESSES
-                  - board eventlister ignores click event 
-                  - all elements of board array should get set to '2' to display the rebus puzzle
-                  - StatusBox shows "I'm sorry, you did not win. Try to guess the answer to the Rebus Puzzle" in Black
-                  - rebusAnswerBox - display
-                  - rebusSubmitBox - display
-                  - numGuessesBox - hidden
-                  - playButton - hidden
+   - If *SquaresSelected[0]* === 0 , statusBox shows "Select first square"
+   - If *SquaresSelected[0]* *!== 0 , statusBox shows "Select second square"
+   - If *SquaresSelected[1]* *!== 0 , figuer out if *SquareSelected[0]* === *SquareSelected[1]*.
+        - If they match - *statusBoxEl* shows "Correct!" in Green
+        - If they do not match - *statusBoxEl* shows "Wrong!" in Red
+        - Increment *numGuesses*
+             - Is *numGuesses* === *MAX_GUESSES*
+                  - *boardEl* eventlister ignores click event 
+                  - all elements of *board* array should get set to '2' to display the rebus puzzle
+                  - *StatusBoxEl* shows "I'm sorry, you did not win. Try to guess the answer to the Rebus Puzzle" in Black
+                  - *rebusAnswerBoxEl* - display
+                  - *rebusSubmitBoxEl* - display
+                  - *numGuessesBoxEl* - hidden
+                  - *playButtonEl* - hidden
 
-3. When the rebusSubmitBox is clicked
-   - Retrieves the player's answer in rebusAnswerBox
-   - Is the player's answer === REBUS_PUZZLE[rebusNum].solution ?
-      - If yes, statusBox shows "You're Right!"
-      - If no,  statusBox shows "Ahh, sorry. <players answer> is not correct. Good Guess!";
-   - rebusAnswerBox - hidden
-   - rebusSubmitBox - hidden
-   - numGuessesBox - hidden
-   - playButton - shows "New Game"
+3. When the *rebusSubmitBoxEl* is clicked
+   - Retrieves the player's answer in *rebusAnswerBoxEl*
+   - Is the player's answer === *REBUS_PUZZLE[rebusNum].solution* ?
+      - If yes, *statusBoxEl* shows "You're Right!"
+      - If no,  *statusBoxEl* shows "Ahh, sorry. <players answer> is not correct. Good Guess!";
+   - *rebusAnswerBoxEl* - hidden
+   - *rebusSubmitBoxEl* - hidden
+   - *numGuessesBoxEl* - hidden
+   - *playButtonEl* - shows "New Game"
