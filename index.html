@@ -9,8 +9,8 @@
 </head>
 <body>
     <div class="grid-container">
-        <div class=item-header class=flex-ctr> Concentration </div>
-        <div class=item-board id="board">
+        <div class=flex-ctr id="title"> Concentration </div>
+        <div id="board">
              <div class=flex-ctr id="1">   1 </div>
              <div class=flex-ctr id="2">   2 </div>
              <div class=flex-ctr id="3">   3 </div>
@@ -48,32 +48,27 @@
              <div class=flex-ctr id="30"> 30 </div>
      
          </div>
-         <div class=item-c>
+         <div id="status">
            <p>
            <center>Directions</center>
            <ol>
            <li> Game consists of a single player. </li>
-            
-           <li>A player's turn includes clicking the mouse over two squares to reveal an emoji hiding underneath. If the player finds a matching set of emojies, the squares will reveal a part of the rebus puzzle underneath. If the player does not find a matching set of emojies, the number of the square is put back. </li>
- 
+           <li> A player's turn includes clicking the mouse over two squares to reveal an emoji hiding underneath. If the player finds a matching set of emojies, the squares will reveal a part of the rebus puzzle underneath. If the player does not find a matching set of emojies, the number of the square is put back. </li>
            <li> Player must find all 15 matching pairs of emojis within 30 guesses to win the game. </li>
-            
            <li> Regardless of whether the player finds all 15 matching emoji pairs or not, the user can guess the answer to the rebus puzzle. </li>
            </ol>
            </p>
             
          </div>
-         <div class=item-d> 
-           <input type="text">
-           <button type="button">Submit</button>
+         <div id=rebus> 
+           <input  id=rebusAnswerTxt type="text">
+           <button id=rebusAnswerBtn type="button">Submit</button>
          </div>
-         <div class=item-e> 
-           <button type="button" value="Play Game">
-           <p>
-           Number of Guesses: 
-           </p>
+         <div id=control> 
+           <button id=playGameBtn    type="button">Play Game</button>
+           <p      id=numGuessesTxt> Number of Guesses: </p>
          </div>
-         <div class=item-f> 
+         <div id=empty> 
            <p>
            </p>
          </div>
