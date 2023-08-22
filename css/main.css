@@ -62,7 +62,7 @@
 #status {
   grid-column: 2 / 3;
   grid-row: 2 / 3;
-  background-color: var(--status-bg: #ccf5ff);
+  background-color: var(--status-bg);
   font-size: 20px;
   text-align: left;
   justify-self: stretch;
@@ -76,7 +76,7 @@
   align-self: end;
   justify-self: stretch;
   text-align: left;
-  background-color: var(--status-bg: #ccf5ff);
+  background-color: var(--status-bg);
   border-radius: 35px;
 }
 
@@ -86,21 +86,21 @@
   align-self: end;
   justify-self: stretch;
   text-align: left;
-  background-color: var(--status-bg: #ccf5ff);
+  background-color: var(--status-bg);
   border-radius: 35px;
 }
 
 #empty {
   grid-column: 2 / 3;
   grid-row: 5 / 6;
-  background-color: #ccf5ff;
+  background-color: var(--status-bg);
   border-radius: 35px;
 }
 
 body {
   margin: 0;
   font-family: Helvetica;
-  background-color: #ccf5ff;
+  background-color: var(--status-bg);
   height: 90vh;
   /* column-gap: 3px;
   row-gap: 3px; */
