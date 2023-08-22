@@ -56,58 +56,159 @@ const numGuessesEl      = document.getElementById('numGuessesTxt');
 
 /* event listeners */
 boardEl.addEventListener('click',function(evt) {
+  let id = evt.target.id; /* console.log(`id=${id}`) */
   if ( numGuesses === -1 ) return; // Game hasn't started yet.
   if ( numEmojiPairsFound ===  NUM_EMOJI_PAIRS ) return; // Game is over
-  let id = evt.target.id;
-  console.log(`id=${id}`)
+  if ( board[id-1] !== BOARD_SHOW_NUMBER) return; // Already processed
+
   if ( squareSelected[0].sqrId === 0 ) {
-    /* First square being chosen */
-    squareSelected[0].sqrId = id;
-    squareSelected[0].emojiId = emojiBoard[id-1];
-    board[squareSelected[0].sqrId-1] = BOARD_SHOW_EMOJI;
+      /* First square being chosen */
+      squareSelected[0].sqrId = id;
+      board[id-1] = BOARD_SHOW_EMOJI;
+      setStatusBoxMsg('Select 2nd square');
   } else if (squareSelected[1].sqrId === 0 ) {
-    /* Second square being chosen */
-    squareSelected[1].sqrId = id;
-    squareSelected[1].emojiId = emojiBoard[id-1];
-    board[squareSelected[1].sqrId-1] = BOARD_SHOW_EMOJI;
-    numGuesses += 1;
+      /* Second square being chosen */
+      squareSelected[1].sqrId = id;
+      board[id-1] = BOARD_SHOW_EMOJI;
+      numGuesses += 1;
+      setTimeout(analyzeSelectedSquares, 2000)
   } else {
-    /* We don't want the user to pick a third square. */
+    alert('boardEl.addEventLisetr.click: We should not get here!')
   }
   render();
 } );
+
 statusBoxEl.addEventListener('click',function(evt) {
   let id = evt.target.id;
-  console.log(`id=${id}`)
+  /* console.log(`id=${id}`) */
 });
 rebusAnswerTxtEl.addEventListener('click',function(evt) {
   let id = evt.target.id;
-  console.log(`id=${id}`)
+  /* console.log(`id=${id}`) */
 });
 rebusAnswerBtnEl.addEventListener('click',function(evt) {
   let id = evt.target.id;
-  console.log(`id=${id}`)
+  /* console.log(`id=${id}`) */
 });
 
 playGameBtnEl.addEventListener('click',function(evt) {
   let id = evt.target.id;
-  console.log(`id=${id}`)
+  /* console.log(`id=${id}`) */
   emojiBoard = [ 
-    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 
+    { "value" : 1, "imgId" : 0 },
+    { "value" : 2, "imgId" : 0 },
+    { "value" : 3, "imgId" : 0 },
+    { "value" : 4, "imgId" : 0 },
+    { "value" : 5, "imgId" : 0 },
+    { "value" : 6, "imgId" : 0 },
+    { "value" : 7, "imgId" : 0 },
+    { "value" : 8, "imgId" : 0 },
+    { "value" : 9, "imgId" : 0 },
+    { "value" : 10, "imgId" : 0 },
+    { "value" : 11, "imgId" : 0 },
+    { "value" : 12, "imgId" : 0 },
+    { "value" : 13, "imgId" : 0 },
+    { "value" : 14, "imgId" : 0 },
+    { "value" : 15, "imgId" : 0 },
+    { "value" : 1, "imgId" : 0 },
+    { "value" : 2, "imgId" : 0 },
+    { "value" : 3, "imgId" : 0 },
+    { "value" : 4, "imgId" : 0 },
+    { "value" : 5, "imgId" : 0 },
+    { "value" : 6, "imgId" : 0 },
+    { "value" : 7, "imgId" : 0 },
+    { "value" : 8, "imgId" : 0 },
+    { "value" : 9, "imgId" : 0 },
+    { "value" : 10, "imgId" : 0 },
+    { "value" : 11, "imgId" : 0 },
+    { "value" : 12, "imgId" : 0 },
+    { "value" : 13, "imgId" : 0 },
+    { "value" : 14, "imgId" : 0 },
+    { "value" : 15, "imgId" : 0 }
   ];
   numGuesses = 0;
-  setStatusBoxMsg('');
+  setStatusBoxMsg('Select 1st square');
   initSquareSelected();
   render();
 });
 
 /*----- functions -----*/
+function analyzeSelectedSquares() {
+  console.log("We are in analyzeSelectedSquares");
+  if ( squareSelected[0].sqrId !==0 && squareSelected[1].sqrId !== 0 ) {
+    console.log("We are also in analyzeSelectedSquares");
+    console.log(squareSelected);
+    emojiId0 = emojiBoard[squareSelected[0].sqrId].value;
+    emojiId1 = emojiBoard[squareSelected[1].sqrId].value;
+    if (emojiId0 === emojiId1) {
+      /*  We have a match */
+      console.log("Match");
+      setBoardValue (BOARD_SHOW_REBUS);
+      setStatusBoxMsg('Match!');
+      setTimeout(showRebusPuzzle, 2000)
+    } else {
+      /*  We not have a match */
+      console.log("No Match");
+      setBoardValue (BOARD_SHOW_NUMBER);
+      setStatusBoxMsg('No Match!');
+      setTimeout(processTurnOver, 2000)
+    }
+  }
+  render();
+}
+function setBoardValue (value) {
+  for ( x = 0 ; x < NUM_GUESSES_PER_TURN; x++ ) {
+    /* sqrId are 1-based and board[] is 0-based */
+    index = squareSelected[x].sqrId-1;
+    board[index] = value;
+  }
+}
+function processTurnOver (){
+  initSquareSelected();
+  setStatusBoxMsg('Select first square');
+  render();
+}
+
+function showRebusPuzzle() {
+  setTimeout(processTurnOver, 2000)
+  console.log("ShowRebusPuzzle")
+}
+
 function init() {
   board = Array(NUM_SQUARES).fill(BOARD_SHOW_NUMBER);
   emojiBoard = Array(NUM_SQUARES).fill(EMOJI_INIT);
-  /* emojiBoard = [ 
-    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 
-  ]; */
+  emojiBoard = [
+    { "value" : 0, "imgId" : 0 },
+    { "value" : 0, "imgId" : 0 },
+    { "value" : 0, "imgId" : 0 },
+    { "value" : 0, "imgId" : 0 },
+    { "value" : 0, "imgId" : 0 },
+    { "value" : 0, "imgId" : 0 },
+    { "value" : 0, "imgId" : 0 },
+    { "value" : 0, "imgId" : 0 },
+    { "value" : 0, "imgId" : 0 },
+    { "value" : 0, "imgId" : 0 },
+    { "value" : 0, "imgId" : 0 },
+    { "value" : 0, "imgId" : 0 },
+    { "value" : 0, "imgId" : 0 },
+    { "value" : 0, "imgId" : 0 },
+    { "value" : 0, "imgId" : 0 },
+    { "value" : 0, "imgId" : 0 },
+    { "value" : 0, "imgId" : 0 },
+    { "value" : 0, "imgId" : 0 },
+    { "value" : 0, "imgId" : 0 },
+    { "value" : 0, "imgId" : 0 },
+    { "value" : 0, "imgId" : 0 },
+    { "value" : 0, "imgId" : 0 },
+    { "value" : 0, "imgId" : 0 },
+    { "value" : 0, "imgId" : 0 },
+    { "value" : 0, "imgId" : 0 },
+    { "value" : 0, "imgId" : 0 },
+    { "value" : 0, "imgId" : 0 },
+    { "value" : 0, "imgId" : 0 },
+    { "value" : 0, "imgId" : 0 },
+    { "value" : 0, "imgId" : 0 }
+  ];
   numGuesses = -1;
   rebusNum = 1;
   numEmojiPairsFound = 0;
@@ -135,13 +236,23 @@ function renderBoard() {
     let id = x + 1;
     switch ( board[x] ) {
        case BOARD_SHOW_NUMBER:
+         sqrEl = sqrEls[x];
+         sqrEl.innerText=`${id}`;
+         emojiBoard[x].imgId=0;
+         imgId = emojiBoard[x].imgId
+         /* console.log(`x=${x}, board[x]=${board[x]} sqrEl=${sqrEl} imgId=${imgId}`) */
          break;
        case BOARD_SHOW_EMOJI:
          sqrEl = sqrEls[x];
-         /* const img = document.createElement('img');
-         img.
-         sqlEl.appendChild(img); */
-         console.log(sqrEl)
+         sqrEl.innerText="";
+         const img = document.createElement('img');
+         img.src=EMOJI[emojiBoard[x].value].img;
+         img.height="100";
+         img.width="100";
+         img.id=`img-${x+1}`
+         emojiBoard[x].imgId = img.id;
+         sqrEl.appendChild(img);
+         /* console.log(sqrEl) */
          break;
        case BOARD_SHOW_REBUS:
          break;
@@ -153,10 +264,6 @@ function renderBoard() {
 
 function renderStatusBox() {
   if ( numGuesses === -1 ) return;
-
-  if ( squareSelected[0] === 0 ) {
-    statusBoxEl.innerText = "Select first square";
-  }
 }
 
 function renderRebusAnswer() {
@@ -170,7 +277,7 @@ function renderRebusAnswer() {
 }
 
 function renderPlayGameBtn() {
-  console.log(`numGuesses = ${numGuesses}`)
+  /* console.log(`numGuesses = ${numGuesses}`) */
   if ( numGuesses ===  -1  ) {
     playGameBtnEl.style.visibility = 'visible';
   } else {
