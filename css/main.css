@@ -23,6 +23,7 @@
   border-width: thick;
   border-color: var(--square-border);
   border-radius: 35px;
+  color: var(--square-border);
 }
 
 .grid-container {
