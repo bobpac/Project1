@@ -70,10 +70,10 @@ boardEl.addEventListener('click',function(evt) {
       /* Second square being chosen */
       squareSelected[1].sqrId = id;
       board[id-1] = BOARD_SHOW_EMOJI;
-      numGuesses += 1;
       setTimeout(analyzeSelectedSquares, 2000)
   } else {
-    alert('boardEl.addEventLisetr.click: We should not get here!')
+    /* console.log(squareSelected);
+    alert('boardEl.addEventLisetr.click: We should not get here!') */
   }
   render();
 } );
@@ -134,21 +134,25 @@ playGameBtnEl.addEventListener('click',function(evt) {
 
 /*----- functions -----*/
 function analyzeSelectedSquares() {
-  console.log("We are in analyzeSelectedSquares");
+  /* console.log("We are in analyzeSelectedSquares"); */
   if ( squareSelected[0].sqrId !==0 && squareSelected[1].sqrId !== 0 ) {
-    console.log("We are also in analyzeSelectedSquares");
-    console.log(squareSelected);
-    emojiId0 = emojiBoard[squareSelected[0].sqrId].value;
-    emojiId1 = emojiBoard[squareSelected[1].sqrId].value;
+    /* console.log("We are also in analyzeSelectedSquares"); */
+    /* console.log(squareSelected); */
+    sqrId0 = squareSelected[0].sqrId;
+    sqrId1 = squareSelected[1].sqrId;
+    /* console.log(sqrId0, sqrId1); */
+    emojiId0 = emojiBoard[sqrId0].value;
+    emojiId1 = emojiBoard[sqrId1].value;
+    /* console.log(emojiId0, emojiId1); */
     if (emojiId0 === emojiId1) {
       /*  We have a match */
-      console.log("Match");
+      /* console.log("Match"); */
       setBoardValue (BOARD_SHOW_REBUS);
       setStatusBoxMsg('Match!');
       setTimeout(showRebusPuzzle, 2000)
     } else {
       /*  We not have a match */
-      console.log("No Match");
+      /* console.log("No Match"); */
       setBoardValue (BOARD_SHOW_NUMBER);
       setStatusBoxMsg('No Match!');
       setTimeout(processTurnOver, 2000)
@@ -164,14 +168,16 @@ function setBoardValue (value) {
   }
 }
 function processTurnOver (){
+  numGuesses += 1;
   initSquareSelected();
   setStatusBoxMsg('Select first square');
   render();
 }
 
 function showRebusPuzzle() {
+  /* console.log("ShowRebusPuzzle") */
+  render();
   setTimeout(processTurnOver, 2000)
-  console.log("ShowRebusPuzzle")
 }
 
 function init() {
@@ -237,9 +243,9 @@ function renderBoard() {
     switch ( board[x] ) {
        case BOARD_SHOW_NUMBER:
          sqrEl = sqrEls[x];
-         sqrEl.innerText=`${id}`;
-         emojiBoard[x].imgId=0;
-         imgId = emojiBoard[x].imgId
+         sqrEl.innerText = `${id}`;
+         emojiBoard[x].imgId = 0;
+         /* imgId = emojiBoard[x].imgId */
          /* console.log(`x=${x}, board[x]=${board[x]} sqrEl=${sqrEl} imgId=${imgId}`) */
          break;
        case BOARD_SHOW_EMOJI:
@@ -250,6 +256,7 @@ function renderBoard() {
          img.height="100";
          img.width="100";
          img.id=`img-${x+1}`
+         img.opacity = 0.0;
          emojiBoard[x].imgId = img.id;
          sqrEl.appendChild(img);
          /* console.log(sqrEl) */
