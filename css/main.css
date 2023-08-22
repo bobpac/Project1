@@ -48,7 +48,6 @@
   border-color: #cc0000;
   border-radius: 35px;
   font-size: 30px;
-  text-align: center;
   color: #cc0000;
 }
 
@@ -65,7 +64,7 @@
 
 #rebus {
   grid-column: 2 / 3;
-  grid-row: 3 / 4;
+  grid-row: 4 / 5;
   align-self: end;
   justify-self: stretch;
   text-align: left;
@@ -75,7 +74,7 @@
 
 #control {
   grid-column: 2 / 3;
-  grid-row: 4 / 5;
+  grid-row: 3 / 4;
   align-self: end;
   justify-self: stretch;
   text-align: left;
