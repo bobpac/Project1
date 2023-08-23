@@ -1,5 +1,6 @@
 /*----- constants -----*/
 "use strict;"
+
 const EMOJI = [ 
   { "img" : ""                                 },  // 0
   { "img" : "img/emoji/ambulance.png",         },  // 1
@@ -26,7 +27,7 @@ const REBUS_PUZZLE = { // partial list
     "phonetic" : "K + lime (climb) f + free (every) m + hound + ten (mountain)",
 };
 
-const MAX_GUESSES = 30;
+const MAX_GUESSES = 3;
 const NUM_EMOJI_PAIRS = 15;
 const NUM_SQUARES = (NUM_EMOJI_PAIRS * 2)
 const NUM_GUESSES_PER_TURN = 2;
@@ -38,12 +39,12 @@ const BOARD_SHOW_REBUS  = 2;
 const EMOJI_INIT = 0; // Emoji value not assinged yet
 
 /*----- state variables -----*/
-let board;
-let emojiBoard;
 let numGuesses;
 let squareSelected;
 let rebusNum;
 let numEmojiPairsFound;
+let board;
+let emojiBoard;
 
 /*----- cached elements  -----*/
 const sqrEls            = [...document.querySelectorAll('#board > div')]
@@ -57,6 +58,7 @@ const numGuessesEl      = document.getElementById('numGuessesTxt');
 /* event listeners */
 boardEl.addEventListener('click',function(evt) {
   let id = evt.target.id; /* console.log(`id=${id}`) */
+  console.log(`boardEl.click: ${id}`)
   if ( numGuesses === -1 ) return; // Game hasn't started yet.
   if ( numEmojiPairsFound ===  NUM_EMOJI_PAIRS ) return; // Game is over
   if ( board[id-1] !== BOARD_SHOW_NUMBER) return; // Already processed
@@ -70,7 +72,7 @@ boardEl.addEventListener('click',function(evt) {
       /* Second square being chosen */
       squareSelected[1].sqrId = id;
       board[id-1] = BOARD_SHOW_EMOJI;
-      setTimeout(analyzeSelectedSquares, 2000)
+      setTimeout(analyzeSelectedSquares, 1500)
   } else {
     /* console.log(squareSelected);
     alert('boardEl.addEventLisetr.click: We should not get here!') */
@@ -80,82 +82,89 @@ boardEl.addEventListener('click',function(evt) {
 
 statusBoxEl.addEventListener('click',function(evt) {
   let id = evt.target.id;
+  console.log(`statusBoxEl.click: ${id}`)
   /* console.log(`id=${id}`) */
 });
 rebusAnswerTxtEl.addEventListener('click',function(evt) {
   let id = evt.target.id;
+  console.log(`rebusAnswerTxtEl.click: ${id}`)
   /* console.log(`id=${id}`) */
 });
+
 rebusAnswerBtnEl.addEventListener('click',function(evt) {
   let id = evt.target.id;
+  console.log(`rebusAnswerBtnEl.click: ${id}`)
   /* console.log(`id=${id}`) */
 });
 
 playGameBtnEl.addEventListener('click',function(evt) {
   let id = evt.target.id;
+  console.log(`playGameBtnEl.click: ${id}`)
   /* console.log(`id=${id}`) */
-  emojiBoard = [ 
-    { "value" : 1, "imgId" : 0 },
-    { "value" : 2, "imgId" : 0 },
-    { "value" : 3, "imgId" : 0 },
-    { "value" : 4, "imgId" : 0 },
-    { "value" : 5, "imgId" : 0 },
-    { "value" : 6, "imgId" : 0 },
-    { "value" : 7, "imgId" : 0 },
-    { "value" : 8, "imgId" : 0 },
-    { "value" : 9, "imgId" : 0 },
-    { "value" : 10, "imgId" : 0 },
-    { "value" : 11, "imgId" : 0 },
-    { "value" : 12, "imgId" : 0 },
-    { "value" : 13, "imgId" : 0 },
-    { "value" : 14, "imgId" : 0 },
-    { "value" : 15, "imgId" : 0 },
-    { "value" : 1, "imgId" : 0 },
-    { "value" : 2, "imgId" : 0 },
-    { "value" : 3, "imgId" : 0 },
-    { "value" : 4, "imgId" : 0 },
-    { "value" : 5, "imgId" : 0 },
-    { "value" : 6, "imgId" : 0 },
-    { "value" : 7, "imgId" : 0 },
-    { "value" : 8, "imgId" : 0 },
-    { "value" : 9, "imgId" : 0 },
-    { "value" : 10, "imgId" : 0 },
-    { "value" : 11, "imgId" : 0 },
-    { "value" : 12, "imgId" : 0 },
-    { "value" : 13, "imgId" : 0 },
-    { "value" : 14, "imgId" : 0 },
-    { "value" : 15, "imgId" : 0 }
-  ];
   numGuesses = 0;
   setStatusBoxMsg('Select 1st square');
   initSquareSelected();
+  initEmojiBoard();
   render();
 });
 
 /*----- functions -----*/
+function initEmojiBoard() {
+  let firstEmojiId = 1;
+  let lastEmojiId = 15;
+  let emojiId = firstEmojiId;
+  for (id = 0 ;id < 2*NUM_EMOJI_PAIRS; id++) {
+    emojiBoard[id] = emojiId++;
+    if ( emojiId > lastEmojiId ) {
+      emojiId = firstEmojiId;
+    }
+  }
+  emojiBoard = shuffle(emojiBoard);
+}
+/* This code was found on stack overflow:
+* https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array */
+
+function shuffle(array) {
+  let currentIndex = array.length,  randomIndex;
+  
+  // While there remain elements to shuffle.
+  while (currentIndex != 0) {
+
+    // Pick a remaining element.
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+  
+    // And swap it with the current element.
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex], array[currentIndex]];
+  }
+
+  return array;
+}
+
 function analyzeSelectedSquares() {
   /* console.log("We are in analyzeSelectedSquares"); */
   if ( squareSelected[0].sqrId !==0 && squareSelected[1].sqrId !== 0 ) {
     /* console.log("We are also in analyzeSelectedSquares"); */
-    /* console.log(squareSelected); */
+    console.log(squareSelected);
     sqrId0 = squareSelected[0].sqrId;
     sqrId1 = squareSelected[1].sqrId;
-    /* console.log(sqrId0, sqrId1); */
-    emojiId0 = emojiBoard[sqrId0].value;
-    emojiId1 = emojiBoard[sqrId1].value;
-    /* console.log(emojiId0, emojiId1); */
+    console.log(sqrId0, sqrId1);
+    emojiId0 = emojiBoard[sqrId0-1];
+    emojiId1 = emojiBoard[sqrId1-1];
+    console.log(emojiId0, emojiId1);
     if (emojiId0 === emojiId1) {
       /*  We have a match */
       /* console.log("Match"); */
-      setBoardValue (BOARD_SHOW_REBUS);
       setStatusBoxMsg('Match!');
-      setTimeout(showRebusPuzzle, 2000)
+      numEmojiPairsFound++;
+      setTimeout(processTurnOver, 3000)
     } else {
       /*  We not have a match */
       /* console.log("No Match"); */
       setBoardValue (BOARD_SHOW_NUMBER);
       setStatusBoxMsg('No Match!');
-      setTimeout(processTurnOver, 2000)
+      setTimeout(processTurnOver, 3000)
     }
   }
   render();
@@ -169,65 +178,37 @@ function setBoardValue (value) {
 }
 function processTurnOver (){
   numGuesses += 1;
-  initSquareSelected();
-  setStatusBoxMsg('Select first square');
+  if ( numEmojiPairsFound ===  2 ) {
+    setStatusBoxMsg('You Win!!!!');
+  } else if ( numGuesses >=  MAX_GUESSES ) {
+    setStatusBoxMsg('You Lose!!!!');
+    appendStatusBoxMsg("To play again, click on 'Play Game'");
+  } else {
+    initSquareSelected();
+    setStatusBoxMsg('Select first square');
+  }
   render();
-}
-
-function showRebusPuzzle() {
-  /* console.log("ShowRebusPuzzle") */
-  render();
-  setTimeout(processTurnOver, 2000)
 }
 
 function init() {
   board = Array(NUM_SQUARES).fill(BOARD_SHOW_NUMBER);
   emojiBoard = Array(NUM_SQUARES).fill(EMOJI_INIT);
-  emojiBoard = [
-    { "value" : 0, "imgId" : 0 },
-    { "value" : 0, "imgId" : 0 },
-    { "value" : 0, "imgId" : 0 },
-    { "value" : 0, "imgId" : 0 },
-    { "value" : 0, "imgId" : 0 },
-    { "value" : 0, "imgId" : 0 },
-    { "value" : 0, "imgId" : 0 },
-    { "value" : 0, "imgId" : 0 },
-    { "value" : 0, "imgId" : 0 },
-    { "value" : 0, "imgId" : 0 },
-    { "value" : 0, "imgId" : 0 },
-    { "value" : 0, "imgId" : 0 },
-    { "value" : 0, "imgId" : 0 },
-    { "value" : 0, "imgId" : 0 },
-    { "value" : 0, "imgId" : 0 },
-    { "value" : 0, "imgId" : 0 },
-    { "value" : 0, "imgId" : 0 },
-    { "value" : 0, "imgId" : 0 },
-    { "value" : 0, "imgId" : 0 },
-    { "value" : 0, "imgId" : 0 },
-    { "value" : 0, "imgId" : 0 },
-    { "value" : 0, "imgId" : 0 },
-    { "value" : 0, "imgId" : 0 },
-    { "value" : 0, "imgId" : 0 },
-    { "value" : 0, "imgId" : 0 },
-    { "value" : 0, "imgId" : 0 },
-    { "value" : 0, "imgId" : 0 },
-    { "value" : 0, "imgId" : 0 },
-    { "value" : 0, "imgId" : 0 },
-    { "value" : 0, "imgId" : 0 }
-  ];
   numGuesses = -1;
   rebusNum = 1;
   numEmojiPairsFound = 0;
-  appendStatusBoxMsg("To begin, click on 'Play Game'");
+  appendStatusBoxMsg("<br>To begin, click on 'Play Game'");
   render();
 }
 
 function setStatusBoxMsg(msg) {
   statusBoxEl.innerText = msg;
+  statusBoxEl.classList.add('ctr');
 }
 
 function appendStatusBoxMsg(msg) {
-  statusBoxEl.append(msg);
+  innerHTML = statusBoxEl.innerHTML;
+  innerHTML = innerHTML + "<br>" + msg;
+  statusBoxEl.innerHTML = innerHTML;
 }
 
 function initSquareSelected() {
@@ -244,20 +225,16 @@ function renderBoard() {
        case BOARD_SHOW_NUMBER:
          sqrEl = sqrEls[x];
          sqrEl.innerText = `${id}`;
-         emojiBoard[x].imgId = 0;
-         /* imgId = emojiBoard[x].imgId */
-         /* console.log(`x=${x}, board[x]=${board[x]} sqrEl=${sqrEl} imgId=${imgId}`) */
          break;
        case BOARD_SHOW_EMOJI:
          sqrEl = sqrEls[x];
          sqrEl.innerText="";
          const img = document.createElement('img');
-         img.src=EMOJI[emojiBoard[x].value].img;
-         img.height="100";
-         img.width="100";
+         img.src=EMOJI[emojiBoard[x]].img;
+         img.height="90";
+         img.width="90";
          img.id=`img-${x+1}`
          img.opacity = 0.0;
-         emojiBoard[x].imgId = img.id;
          sqrEl.appendChild(img);
          /* console.log(sqrEl) */
          break;
@@ -298,7 +275,7 @@ function renderNumGuesses() {
   } else {
     numGuessesEl.style.visibility = 'visible';
   }
-  numGuessesEl.innerText = `Number of Guesses = ${numGuesses} out of ${MAX_GUESSES}`
+  numGuessesEl.innerText = `Number of Guesses: ${numGuesses} out of ${MAX_GUESSES}`
 }
 
 function render() {
