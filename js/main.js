@@ -27,9 +27,9 @@ const REBUS_PUZZLE = { // partial list
     "phonetic" : "K + lime (climb) f + free (every) m + hound + ten (mountain)",
 };
 
-const MAX_GUESSES = 30
+const MAX_GUESSES = 40;
 const NUM_EMOJI_PAIRS = 15;
-const NUM_SQUARES = (NUM_EMOJI_PAIRS * 2)
+const NUM_SQUARES = (NUM_EMOJI_PAIRS * 2);
 const NUM_GUESSES_PER_TURN = 2;
 
 const BOARD_SHOW_NUMBER = 0;
@@ -59,9 +59,9 @@ const numGuessesEl      = document.getElementById('numGuessesTxt');
 boardEl.addEventListener('click',function(evt) {
   let id = evt.target.id; /* console.log(`id=${id}`) */
   /* console.log(`boardEl.click: ${id}`) */
-  if ( numGuesses === -1 ) return; // Game hasn't started yet.
-  if ( numEmojiPairsFound ===  NUM_EMOJI_PAIRS ) return; // Game is over
-  if ( board[id-1] !== BOARD_SHOW_NUMBER) return; // Already processed
+  if ( numGuesses === -1                       ||   // Game hasn't started yet.
+       numEmojiPairsFound ===  NUM_EMOJI_PAIRS ||   // Game is over
+       board[id-1] !== BOARD_SHOW_NUMBER) return;   // Already processed
 
   if ( squareSelected[0].sqrId === 0 ) {
       /* First square being chosen */
@@ -72,7 +72,7 @@ boardEl.addEventListener('click',function(evt) {
       /* Second square being chosen */
       squareSelected[1].sqrId = id;
       board[id-1] = BOARD_SHOW_EMOJI;
-      setTimeout(analyzeSelectedSquares, 1500)
+      setTimeout(analyzeSelectedSquares, 800)
   } else {
     /* console.log(squareSelected);
     alert('boardEl.addEventLisetr.click: We should not get here!') */
@@ -158,13 +158,13 @@ function analyzeSelectedSquares() {
       /* console.log("Match"); */
       setStatusBoxMsg('Match!');
       numEmojiPairsFound++;
-      setTimeout(processTurnOver, 3000)
+      setTimeout(processTurnOver, 700)
     } else {
       /*  We not have a match */
       /* console.log("No Match"); */
       setBoardValue (BOARD_SHOW_NUMBER);
       setStatusBoxMsg('No Match!');
-      setTimeout(processTurnOver, 3000)
+      setTimeout(processTurnOver, 700)
     }
   }
   render();
@@ -197,7 +197,6 @@ function init() {
   numGuesses = -1;
   rebusNum = 1;
   numEmojiPairsFound = 0;
-  appendStatusBoxMsg("<br>To begin, click on 'Play Game'");
   render();
 }
 
@@ -263,7 +262,9 @@ function renderRebusAnswer() {
 
 function renderPlayGameBtn() {
   /* console.log(`numGuesses = ${numGuesses}`) */
-  if ( numGuesses ===  -1  ) {
+  if ( numGuesses === -1 ||                         // Game not started
+       numGuesses === MAX_GUESSES ||                // Game lost
+       numEmojiPairsFound ===  NUM_EMOJI_PAIRS ) {  // Game won
     playGameBtnEl.style.visibility = 'visible';
   } else {
     playGameBtnEl.style.visibility = 'hidden';
