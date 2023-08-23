@@ -27,7 +27,7 @@ const REBUS_PUZZLE = { // partial list
     "phonetic" : "K + lime (climb) f + free (every) m + hound + ten (mountain)",
 };
 
-const MAX_GUESSES = 3;
+const MAX_GUESSES = 30
 const NUM_EMOJI_PAIRS = 15;
 const NUM_SQUARES = (NUM_EMOJI_PAIRS * 2)
 const NUM_GUESSES_PER_TURN = 2;
@@ -58,7 +58,7 @@ const numGuessesEl      = document.getElementById('numGuessesTxt');
 /* event listeners */
 boardEl.addEventListener('click',function(evt) {
   let id = evt.target.id; /* console.log(`id=${id}`) */
-  console.log(`boardEl.click: ${id}`)
+  /* console.log(`boardEl.click: ${id}`) */
   if ( numGuesses === -1 ) return; // Game hasn't started yet.
   if ( numEmojiPairsFound ===  NUM_EMOJI_PAIRS ) return; // Game is over
   if ( board[id-1] !== BOARD_SHOW_NUMBER) return; // Already processed
@@ -82,24 +82,24 @@ boardEl.addEventListener('click',function(evt) {
 
 statusBoxEl.addEventListener('click',function(evt) {
   let id = evt.target.id;
-  console.log(`statusBoxEl.click: ${id}`)
+  /* console.log(`statusBoxEl.click: ${id}`) */
   /* console.log(`id=${id}`) */
 });
 rebusAnswerTxtEl.addEventListener('click',function(evt) {
   let id = evt.target.id;
-  console.log(`rebusAnswerTxtEl.click: ${id}`)
+  /* console.log(`rebusAnswerTxtEl.click: ${id}`) */
   /* console.log(`id=${id}`) */
 });
 
 rebusAnswerBtnEl.addEventListener('click',function(evt) {
   let id = evt.target.id;
-  console.log(`rebusAnswerBtnEl.click: ${id}`)
+  /* console.log(`rebusAnswerBtnEl.click: ${id}`) */
   /* console.log(`id=${id}`) */
 });
 
 playGameBtnEl.addEventListener('click',function(evt) {
   let id = evt.target.id;
-  console.log(`playGameBtnEl.click: ${id}`)
+  /* console.log(`playGameBtnEl.click: ${id}`) */
   /* console.log(`id=${id}`) */
   numGuesses = 0;
   setStatusBoxMsg('Select 1st square');
@@ -111,7 +111,7 @@ playGameBtnEl.addEventListener('click',function(evt) {
 /*----- functions -----*/
 function initEmojiBoard() {
   let firstEmojiId = 1;
-  let lastEmojiId = 15;
+  let lastEmojiId = NUM_EMOJI_PAIRS;
   let emojiId = firstEmojiId;
   for (id = 0 ;id < 2*NUM_EMOJI_PAIRS; id++) {
     emojiBoard[id] = emojiId++;
@@ -146,13 +146,13 @@ function analyzeSelectedSquares() {
   /* console.log("We are in analyzeSelectedSquares"); */
   if ( squareSelected[0].sqrId !==0 && squareSelected[1].sqrId !== 0 ) {
     /* console.log("We are also in analyzeSelectedSquares"); */
-    console.log(squareSelected);
+    /* console.log(squareSelected); */
     sqrId0 = squareSelected[0].sqrId;
     sqrId1 = squareSelected[1].sqrId;
-    console.log(sqrId0, sqrId1);
+    /* console.log(sqrId0, sqrId1); */
     emojiId0 = emojiBoard[sqrId0-1];
     emojiId1 = emojiBoard[sqrId1-1];
-    console.log(emojiId0, emojiId1);
+    /* console.log(emojiId0, emojiId1); */
     if (emojiId0 === emojiId1) {
       /*  We have a match */
       /* console.log("Match"); */
@@ -178,8 +178,9 @@ function setBoardValue (value) {
 }
 function processTurnOver (){
   numGuesses += 1;
-  if ( numEmojiPairsFound ===  2 ) {
+  if ( numEmojiPairsFound ===  NUM_EMOJI_PAIRS ) {
     setStatusBoxMsg('You Win!!!!');
+    appendStatusBoxMsg("To play again, click on 'Play Game'");
   } else if ( numGuesses >=  MAX_GUESSES ) {
     setStatusBoxMsg('You Lose!!!!');
     appendStatusBoxMsg("To play again, click on 'Play Game'");
