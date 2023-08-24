@@ -251,9 +251,7 @@ function renderBoard() {
          img.id=`img-${x+1}`
          sqrEl.appendChild(img);
          break;
-      default:
-        alert("Invalid board value");
-    }
+     }
   }
 }
 
