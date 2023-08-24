@@ -292,7 +292,8 @@ function cheat2win() {
             sqrx = x + 1;
             sqry = y + 1;
             emojiId = emojiBoard[x];
-            console.log(`${sqrx} and ${sqry} = ${EMOJI[emojiId].img}`)
+            filename = `${EMOJI[emojiId].img}`.replace("img/emoji/","");
+            console.log(`${sqrx} and ${sqry} = ${filename}`)
             break;
           } 
         }
