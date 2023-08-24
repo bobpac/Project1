@@ -68,7 +68,6 @@ body {
   border-color: var(--square-border);
   font-size: 30px;
   color: var(--square-border);
-  opacity: 1.0;
 }
 
 #status {
@@ -79,15 +78,6 @@ body {
   text-align: left;
   justify-self: stretch;
   align-items: end;
-}
-
-#rebus {
-  grid-column: 2 / 3;
-  grid-row: 4 / 5;
-  align-self: end;
-  justify-self: stretch;
-  text-align: left;
-  background-color: var(--status-bg);
 }
 
 #control {
