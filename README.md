@@ -1,4 +1,5 @@
 # CONCENTRATION
+I used to love watching the classic game show of Concentration on TV as a kid. The show was on and off the air a total of 24 years with the last game show host being the late, great Alex Trebek.
 
 ## Rules
 
@@ -39,3 +40,11 @@ As you progress in the game, you'll gradually accumulate pairs of images making 
 If you uncover all 15 pairs of emoji's, you win! But if you at first don't succeed, try, try, again.
 
 ![WinningAGame](img/readme/WinningAGame.png)
+
+## Next Steps
+
+Version 2.0 of the game could include:
+
+1. Total number of games won and lost.
+2. Support of the rebus puzzle (similar to how the TV show had).
+3. Sound effects (like a TV game show), e.g. applause, theme music.
