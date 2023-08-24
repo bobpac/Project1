@@ -268,12 +268,38 @@ function renderPlayGameBtn() {
 }
 
 function renderNumGuesses() {
-  if ( numGuesses === -1 || numEmojiPairsFound ===  NUM_EMOJI_PAIRS ) {
+  if ( numGuesses === -1 ) {
     numGuessesEl.style.visibility = 'hidden';
   } else {
     numGuessesEl.style.visibility = 'visible';
   }
   numGuessesEl.innerText = `Number of Guesses: ${numGuesses} out of ${MAX_GUESSES}`
+}
+
+function cheat2win() {
+  if ( numGuesses === -1 ) { 
+    console.log("No cheating!")
+    return 0;
+  }
+  /* Prints out matching squares */
+  let found = [ -1];
+  for ( x=0; x < emojiBoard.length; x++ ) {
+    for ( y=0; y < emojiBoard.length; y++ ) {
+      if ( y != x ) {
+        if ( emojiBoard[y] == emojiBoard[x]) {
+          if ( !found.includes(emojiBoard[x])) {
+            found.push(emojiBoard[x]);
+            sqrx = x + 1;
+            sqry = y + 1;
+            emojiId = emojiBoard[x];
+            console.log(`${sqrx} and ${sqry} = ${EMOJI[emojiId].img}`)
+            break;
+          } 
+        }
+      }
+    }
+  }
+  return 0;
 }
 
 function render() {
