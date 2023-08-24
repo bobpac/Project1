@@ -18,20 +18,24 @@ Go [here](https://bobpac.github.io/Project1/) to get to the game of Concentratio
 
 ### Directions
 Initial screen on loading the game.
-![Directions](assets/Directions.png)
+
+![Directions](img/readme/Directions.png)
 
 
 ### Starting a Game
 After pressing the "Play Game" button, select two numbered squares. Try to remember where each image is hiding since you only have 40 turns.
-![StartingAGame](assets/StartingAGame.png)
+
+![StartingAGame](img/readme/StartingAGame.png)
 
 
 
 ### Playing a Game
 As you progress in the game, you'll gradually accumulate pairs of images making the game easier and easier.
-![PlayingAGame](assets/PlayingAGame.png)
+
+![PlayingAGame](img/readme/PlayingAGame.png)
 
 
 ### Winning the Game
 If you uncover all 15 pairs of emoji's, you win! But if you at first don't succeed, try, try, again.
-![WinningAGame](assets/WinningAGame.png)
+
+![WinningAGame](img/readme/WinningAGame.png)
