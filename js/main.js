@@ -269,7 +269,7 @@ function renderNumGuesses() {
   } else {
     numGuessesEl.style.visibility = 'visible';
   }
-  numGuessesEl.innerText = `Number of Guesses: ${numGuesses} out of ${MAX_GUESSES}`
+  numGuessesEl.innerText = `# of Guesses: ${numGuesses} out of ${MAX_GUESSES}`
 }
 
 function cheat2win() {
