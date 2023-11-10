@@ -246,8 +246,6 @@ function renderBoard() {
          sqrEl.innerText="";
          const img = document.createElement('img');
          img.src=EMOJI[emojiBoard[x]].img;
-         img.height="90";
-         img.width="90";
          img.id=`img-${x+1}`
          sqrEl.appendChild(img);
          break;
